@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Events Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        .event-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .event-item {
+            width: 180px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ensure the image fits in a square box */
+        .event-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>College Sports Events</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#registeredParticipants" onclick="showParticipants()">Registered Participants</a></li>
+                <li><a href="#feedback" onclick="redirectToFeedback()">Feedback</a></li>
+                <!-- Added Feedback link in nav -->
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h2>Welcome to the Sports Events Management Platform</h2>
+        <p>
+            Our platform is designed for the management of college sports events.
+        <p>
+            This Platform helps you to get aware of "you are registered to the event or not".
+        </p>
+    </section>
+
+    <section id="events">
+        <h2>Upcoming Events</h2>
+        <div class="event-grid">
+            <div class="event-item">
+                <img src="football.jpg" alt="Football">
+                <p>Football Tournament</p>
+                <p>25-08-2024</p>
+                <p>Contact: 9876543210</p>
+            </div>
+            <div class="event-item">
+                <img src="cricket.jpg" alt="Cricket">
+                <p>Cricket League</p>
+                <p>26-08-2024</p>
+                <p>Contact: 9123456789</p>
+            </div>
+            <div class="event-item">
+                <img src="kho kho.jpg" alt="Kho Kho">
+                <p>Kho Kho Championship</p>
+                <p>27-08-2024</p>
+                <p>Contact: 9234567890</p>
+            </div>
+            <div class="event-item">
+                <img src="carrom.webp" alt="Carrom">
+                <p>Carrom Competition</p>
+                <p>28-08-2024</p>
+                <p>Contact: 9345678901</p>
+            </div>
+            <div class="event-item">
+                <img src="badminton.jpg" alt="Badminton">
+                <p>Badminton Match</p>
+                <p>29-08-2024</p>
+                <p>Contact: 9456789012</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="register">
+        <h2>Register for an Event</h2>
+        <form id="registrationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="department">Department:</label>
+            <select id="department" name="department" required>
+                <option value="CSE">Computer Science Engineering</option>
+                <option value="ECE">Electronics and Communication Engineering</option>
+                <option value="EEE">Electrical and Electronics Engineering</option>
+                <option value="MECH">Mechanical Engineering</option>
+                <option value="CIVIL">Civil Engineering</option>
+            </select>
+
+            <label for="event">Choose Event:</label>
+            <select id="event" name="event" required>
+                <option value="football">Football - 25-08-2024</option>
+                <option value="cricket">Cricket - 26-08-2024</option>
+                <option value="kho kho">Kho Kho - 27-08-2024</option>
+                <option value="carrom">Carrom - 28-08-2024</option>
+                <option value="badminton">Badminton - 29-08-2024</option>
+            </select>
+
+            <label for="od">OD Processed:</label>
+            <select id="od" name="od" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <button type="submit">Register</button>
+        </form>
+    </section>
+
+    <!-- Add a section for registered participants -->
+    <section id="registeredParticipants" style="display:none;">
+        <h2>Registered Participants</h2>
+        <h3>Football</h3>
+        <ul id="footballList"></ul>
+
+        <h3>Cricket</h3>
+        <ul id="cricketList"></ul>
+
+        <h3>Kho Kho</h3>
+        <ul id="khoKhoList"></ul>
+
+        <h3>Carrom</h3>
+        <ul id="carromList"></ul>
+
+        <h3>Badminton</h3>
+        <ul id="badmintonList"></ul>
+        <p>For feedback, please click <a href="https://forms.gle/WbuLoiXiee4vS5cN7" target="_blank">here</a>.</p>
+        <!-- Added feedback link -->
+    </section>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get the input values
+            const name = document.getElementById('name').value;
+            const department = document.getElementById('department').value;
+            const eventChosen = document.getElementById('event').value;
+            const odProcessed = document.getElementById('od').value;
+
+            // Create a new list item
+            const li = document.createElement('li');
+            li.textContent = `${name} from ${department} department registered for ${eventChosen}. OD Processed: ${odProcessed}`;
+
+            // Append the list item to the appropriate event list
+            const eventListId = eventChosen.replace(/\s+/g, '') + 'List';
+            document.getElementById(eventListId).appendChild(li);
+
+            // Clear the form
+            document.getElementById('registrationForm').reset();
+        });
+
+        // Function to show participants by event
+        function showParticipants() {
+            document.getElementById('registeredParticipants').style.display = 'block';
+            // Scroll smoothly to the registered participants section
+            document.querySelector('#registeredParticipants').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Redirect to feedback link
+        function redirectToFeedback() {
+            window.open("https://forms.gle/WbuLoiXiee4vS5cN7", "_blank");
+        }
+    </script>
+</body>
+
+</html>
